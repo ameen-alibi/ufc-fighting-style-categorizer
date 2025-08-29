@@ -10,7 +10,7 @@ def url_to_filename(url: str) -> str:
 # It looks for the html locally before making a new request
 
 
-def cached_request(url, folder='cache'):
+def cached_request(url, folder='cached_html'):
     os.makedirs(folder, exist_ok=True)
 
     filename = os.path.join(folder, url_to_filename(url))
