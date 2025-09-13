@@ -1,0 +1,1 @@
+Used the data-link (fight id) to join the fights dataframe with the 
