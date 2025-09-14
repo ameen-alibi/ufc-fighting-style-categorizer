@@ -1,4 +1,0 @@
-Format Ht.,Wt. & Reach 
-make stance and belt categorical
-make W-L-D int32
-====> Done
