@@ -34,7 +34,8 @@ I used seaborn visualizations to explore various aspects of the data, correlatio
 ### Clustering Fighters
 To categorize unlabeled data, hard clustering is a great option. Fitting the KMeans model to the whole dataset performed poorly with various `n_clusters` values.  
 
-<img width="1589" height="1190" alt="image" src="https://github.com/user-attachments/assets/b535c3ff-9c52-44be-8016-aeebb5207b76" />
+<img width="1990" height="790" alt="image" src="https://github.com/user-attachments/assets/49882c32-2bde-4bdc-98a3-28181e5383c4" />
+
 
 The model had the best silhouette score with 2 clusters, but fighters have much more versatile fighting styles than only two. That's why I decided to continue with `n_clusters = 4`.  
 
@@ -46,7 +47,7 @@ As we can see, there are no clear and separated clusters. There are many overlap
 
 So I decided to fit the model to the PCA-reduced dataset, as it conserves the overall structure of the data but also reduces its complexity. It simply performed much better.  
 
-<img width="1589" height="1190" alt="image" src="https://github.com/user-attachments/assets/6c25965a-10d6-46a9-b427-1aac887be762" />
+<img width="1990" height="790" alt="image" src="https://github.com/user-attachments/assets/db9d3894-7dc5-440b-af5e-16a67e83b609" />
 
 This is how the clusters turned out:  
 
