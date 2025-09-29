@@ -12,6 +12,8 @@ I used BeautifulSoup to scrape Events, Fights, and Fighters from the UFC Stats w
 
 For the fighters dataset, I generated a unique identifier using the fighter’s full name and nickname. Finally, instead of just scraping the fighters’ stats, I extracted them from the fights dataset using joins and aggregation functions.
 
+You can both raw and preprocessed data on [Kaggle](https://www.kaggle.com/datasets/aminealibi/ufc-fights-fighters-and-events-dataset)
+
 ---
 
 ### Data Cleaning
