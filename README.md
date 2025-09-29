@@ -1,9 +1,9 @@
-# UFC Fighting Style Clustering 
+# UFC Fighting Style Categorizer 
 
 ---
 
 ### Project Overview
-UFC Fighting Style Clustering is a project that I built out of pure love for both ML and the MMA sport. It is mainly about building a model that is able to confidently assign each fighter to his fighting style. To achieve this, I first gathered data by scraping it from the UFC stats website, cleaned it, performed an EDA, and finally built a clustering model that determines fighters’ styles based on different fight statistics (Knockdowns, Takedowns, Strikes, ...).
+UFC Fighting Style Categorizer is a project that I built out of pure love for both ML and the MMA sport. It is mainly about building a model that is able to confidently assign each fighter to his fighting style. To achieve this, I first gathered data by scraping it from the UFC stats website, cleaned it, performed an EDA, and finally built a clustering model that determines fighters’ styles based on different fight statistics (Knockdowns, Takedowns, Strikes, ...).
 
 ---
 
