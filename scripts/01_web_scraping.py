@@ -19,10 +19,6 @@ import requests
 import sys
 import os
 
-# Set up autoreload for modules
-%load_ext autoreload
-%autoreload 2
-
 BASE_URL = "http://ufcstats.com/statistics/fighters"
 
 # Remove BeautifulSoup warnings
