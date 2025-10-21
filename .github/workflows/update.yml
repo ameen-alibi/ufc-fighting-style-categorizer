@@ -34,4 +34,4 @@ jobs:
           zip -r upload/raw_data.zip raw_data/
       - name: Upload Dataset to Kaggle
         run: |
-          kaggle datasets version -p upload -m "Upload new dataset version with cleaned + raw data" --dir-mode zip
+          kaggle datasets version -p upload -m "Upload new dataset version with cleaned + raw data"
