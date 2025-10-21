@@ -1,0 +1,9 @@
+requests
+beautifulsoup4
+pandas
+numpy
+scikit-learn
+umap-learn
+tqdm
+seaborn
+kaggle
