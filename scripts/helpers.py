@@ -11,8 +11,8 @@ def url_to_filename(url: str) -> str:
 
 
 def cached_request(url, folder='cached_html'):
+    folder = base_path(folder)
     os.makedirs(folder, exist_ok=True)
-
     filename = os.path.join(folder, url_to_filename(url))
 
     # Look for the requested page locally
@@ -27,3 +27,8 @@ def cached_request(url, folder='cached_html'):
         f.write(html)
 
     return html
+
+
+def base_path(filename):
+    parent_dir = os.path.dirname(os.getcwd())
+    return os.path.join(parent_dir, filename)

@@ -2,32 +2,44 @@
 # -*- coding: utf-8 -*-
 """
 Converted from Jupyter Notebook: notebook.ipynb
-Conversion Date: 2025-10-21T10:47:44.144Z
+Conversion Date: 2025-10-21T20:32:10.980Z
 """
 
 # ### Scrape Fighters Data
 
 
-from tqdm.autonotebook import tqdm
-from pprint import pprint
-import requests
-import bs4
-import helpers
-import string
+from helpers import cached_request, base_path
+from tqdm import tqdm
+import warnings
+from bs4 import MarkupResemblesLocatorWarning
 import pandas as pd
+import string
+import bs4
+import requests
+import sys
+import os
+
+# Set up autoreload for modules
+%load_ext autoreload
+%autoreload 2
 
 BASE_URL = "http://ufcstats.com/statistics/fighters"
+
+# Remove BeautifulSoup warnings
+
+warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 # The page is organized by fighters names so I decided to
 # Loop through different pages using an alphabets list
 alphabets = list(string.ascii_lowercase)
 for letter in alphabets:
-    fighters_DOM_per_letter = helpers.cached_request(
+    fighters_DOM_per_letter = cached_request(
         f"{BASE_URL}?char={letter}")
     soup = bs4.BeautifulSoup(fighters_DOM_per_letter, 'html.parser')
     pagination = soup.find('ul', class_='b-statistics__paginate')
-    n_pages = len(pagination.find_all('li'))
-
+    n_pasges = 1
+    if pagination:
+        n_pages = len(pagination.find_all('li')) if pagination else 1
     # Initialize the fighters dict
     if letter == 'a':
         headers = [th.get_text(strip=True)
@@ -38,7 +50,7 @@ for letter in alphabets:
     # there is a link for "all"
     # for i in range(1, n_pages+1):
     # The enumerated pages does not have all the fighters listed. I noticed that when I looked for Khabib & didn't find hime
-    current_page = helpers.cached_request(
+    current_page = cached_request(
         f"{BASE_URL}?char={letter}&page=all")
     soup_1 = bs4.BeautifulSoup(current_page, 'html.parser')
 
@@ -69,7 +81,9 @@ fighters_df = pd.DataFrame(fighters_data)
 
 fighters_df.head()
 
-fighters_df.to_csv('raw_data/raw_fighters.csv', index=False)
+base_path('raw_data/raw_fighters.csv')
+
+fighters_df.to_csv(base_path('raw_data/raw_fighters.csv'), index=False)
 
 # ### Scrape Events
 
@@ -117,7 +131,7 @@ events_df = pd.DataFrame(events_dict)
 events_df.set_index('Event_Id', inplace=True)
 events_df.head()
 
-events_df.to_csv('raw_data/raw_events.csv')
+events_df.to_csv(base_path('raw_data/raw_events.csv'))
 
 # ### Scrape Events Details (Fights)
 
@@ -144,7 +158,7 @@ def extract_fights_from_event(event):
     first_td = event.select_one('td.b-statistics__table-col')
     event_link = first_td.select_one('a.b-link').get('href')
     # Visit each event link
-    event_html = helpers.cached_request(event_link)
+    event_html = cached_request(event_link)
     event_soup = bs4.BeautifulSoup(event_html, "html.parser")
     # Fights in each event share the same fight_id
     event_id = event_link.split('/')[-1]
@@ -192,7 +206,7 @@ fights_df = pd.DataFrame(fights_dict)
 fights_df.set_index('Fight_Id', inplace=True)
 fights_df.head()
 
-fights_df.to_csv('raw_data/raw_fights.csv')
+fights_df.to_csv(base_path('raw_data/raw_fights.csv'))
 
 # There are more details about fights at the "/fight-details" route
 
@@ -259,8 +273,6 @@ def parse_fight_details(fight_html):
     return fight_dict
 
 
-# I am printing dicts too much. I need to do it in a prettier way
-
 fights_list = []
 events_total = len(events_rows)
 # Adding tqdm to this loop made the waiting process less boring
@@ -285,7 +297,7 @@ for event in tqdm(
         dynamic_ncols=True,
     ):
         fight_details_link = fight['data-link']
-        fight_details_html = helpers.cached_request(fight_details_link)
+        fight_details_html = cached_request(fight_details_link)
         fight_dict = parse_fight_details(fight_details_html)
         fight_dict['Fight_Id'] = fight_details_link.split('/')[-1]
         fight_dict['Event_Id'] = event_id
@@ -304,4 +316,4 @@ len(details_df) == len(fights_df)
 combined_df = fights_df.merge(details_df, on='Fight_Id', how='left')
 combined_df.head()
 
-combined_df.to_csv('raw_data/raw_fights_detailed.csv')
+combined_df.to_csv(base_path('raw_data/raw_fights_detailed.csv'))
