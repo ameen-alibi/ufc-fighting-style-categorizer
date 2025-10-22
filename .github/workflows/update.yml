@@ -16,6 +16,14 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Cache HTML files
+        uses: actions/cache@v3
+        with:
+          path: cached_html
+          key: cached-html-${{ github.run_number }}
+          restore-keys: |
+            cached-html-
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
@@ -26,7 +34,7 @@ jobs:
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Run pipeline
-        run: python main.py
+        run: python scripts/main.py
 
       - name: Zip data folders
         run: |

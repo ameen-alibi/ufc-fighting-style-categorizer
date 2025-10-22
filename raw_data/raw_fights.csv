@@ -1,4 +1,55 @@
 Fight_Id,Win/No Contest/Draw,Fighter_1,Fighter_2,KD_1,KD_2,STR_1,STR_2,TD_1,TD_2,SUB_1,SUB_2,Weight_Class,Method,Round,Fight_Time,Event_Id
+d61373d9fdf01a12,win,Brendan Allen,Reinier de Ridder,0,0,22,9,1,3,1,1,Middleweight,KO/TKO,4,5:00,38e5d9dcb0fddc42
+cdd565a16975c711,win,Mike Malott,Kevin Holland,0,0,49,52,1,1,1,0,Welterweight,U-DEC,3,5:00,38e5d9dcb0fddc42
+857d274e47aa8c4e,win,Aiemann Zahabi,Marlon Vera,0,1,81,56,0,0,0,0,Bantamweight,S-DEC,3,5:00,38e5d9dcb0fddc42
+c82acd7b17915591,win,Manon Fiorot,Jasmine Jasudavicius,0,0,16,2,0,0,0,0,Women's Flyweight,KO/TKO Punches,1,1:14,38e5d9dcb0fddc42
+a18edcb638ba7e39,win,Charles Jourdain,Davey Grant,1,0,25,9,0,0,1,0,Bantamweight,SUB Guillotine Choke,1,3:05,38e5d9dcb0fddc42
+3af1bdc5a510bba9,win,Kyle Nelson,Matt Frevola,1,0,63,43,2,2,0,0,Lightweight,U-DEC,3,5:00,38e5d9dcb0fddc42
+ecdbb3a5216b815e,win,Drew Dober,Kyle Prepolec,0,0,83,51,0,0,0,0,Lightweight,KO/TKO Punches,3,1:16,38e5d9dcb0fddc42
+970f083af8368f57,win,Aoriqileng,Cody Gibson,1,0,5,3,0,0,0,0,Bantamweight,KO/TKO Punch,1,0:21,38e5d9dcb0fddc42
+668a44403a130043,win,Bruno Silva,HyunSung Park,1,0,46,31,5,1,1,0,Flyweight,SUB Rear Naked Choke,3,2:15,38e5d9dcb0fddc42
+096e00355c8c84ac,win,Djorden Santos,Danny Barlow,0,0,99,93,0,0,0,0,Middleweight,U-DEC,3,5:00,38e5d9dcb0fddc42
+8d9458121f0c4b95,win,Stephanie Luciano,Ravena Oliveira,0,0,60,24,3,0,1,0,Women's Strawweight,SUB Rear Naked Choke,3,2:50,38e5d9dcb0fddc42
+87ac0e5face106b4,win,Yousri Belgaroui,Azamat Bekoev,0,0,102,24,1,4,0,0,Middleweight,KO/TKO Punches,3,0:55,38e5d9dcb0fddc42
+dec301fd5e99ca46,win,Melissa Croden,Tainara Lisboa,1,0,99,42,2,2,0,0,Women's Bantamweight,KO/TKO Punches,3,4:32,38e5d9dcb0fddc42
+79865287be90e4be,win,Charles Oliveira,Mateusz Gamrot,0,0,11,18,1,1,1,0,Lightweight,SUB Rear Naked Choke,2,2:48,9336e86cfd4ceaa1
+f295eb2a7b0ba4b7,win,Deiveson Figueiredo,Montel Jackson,0,0,23,30,2,1,0,0,Bantamweight,S-DEC,3,5:00,9336e86cfd4ceaa1
+6188b7fb3f8daacc,win,Joel Alvarez,Vicente Luque,0,0,89,30,1,0,1,0,Welterweight,U-DEC,3,5:00,9336e86cfd4ceaa1
+03377f7bf8a2d5ff,win,Mario Pinto,Jhonata Diniz,0,0,29,1,3,0,2,0,Heavyweight,KO/TKO Punches,2,4:10,9336e86cfd4ceaa1
+2aef1a91d26dde42,win,Kaan Ofli,Ricardo Ramos,0,0,1,1,1,0,1,3,Featherweight,SUB Rear Naked Choke,1,3:02,9336e86cfd4ceaa1
+cff0abc02974fb4a,win,Michael Aswell Jr.,Lucas Almeida,2,0,30,9,0,0,0,0,Featherweight,KO/TKO Punches,1,1:42,9336e86cfd4ceaa1
+766b0b26c40525de,win,Jafel Filho,Clayton Carpenter,0,0,5,7,1,0,1,0,Flyweight,SUB Kimura,1,4:42,9336e86cfd4ceaa1
+a815dafc89adf33b,win,Vitor Petrino,Thomas Petersen,2,0,31,16,1,0,0,0,Heavyweight,KO/TKO Punch,3,0:26,9336e86cfd4ceaa1
+546f971f9d8e0a33,win,Bia Mesquita,Irina Alekseeva,0,0,36,6,2,0,1,0,Women's Bantamweight,SUB Rear Naked Choke,2,2:14,9336e86cfd4ceaa1
+434abaea90ccd299,win,Lucas Rocha,Stewart Nicoll,0,0,115,45,3,2,0,0,Flyweight,U-DEC,3,5:00,9336e86cfd4ceaa1
+c547b3e95bcc5f24,win,Julia Polastri,Karolina Kowalkiewicz,0,0,137,72,0,1,0,0,Women's Strawweight,KO/TKO Punches,3,2:56,9336e86cfd4ceaa1
+0f9e7d0d04e24b74,win,Luan Lacerda,Saimon Oliveira,0,0,24,21,3,1,1,0,Bantamweight,SUB Armbar,2,3:55,9336e86cfd4ceaa1
+0de1ef0b9f3a79c0,win,Alex Pereira,Magomed Ankalaev,0,0,28,4,0,0,0,0,Light Heavyweight,KO/TKO Elbows,1,1:20,8944a0f9b2f0ce6d
+a8511df8285f5c91,win,Merab Dvalishvili,Cory Sandhagen,0,0,114,80,20,0,0,0,Bantamweight,U-DEC,5,5:00,8944a0f9b2f0ce6d
+2560ea97b2cce4ef,win,Jiri Prochazka,Khalil Rountree Jr.,1,0,71,66,0,0,0,0,Light Heavyweight,KO/TKO Punches,3,3:04,8944a0f9b2f0ce6d
+84ebd144d5e79c88,win,Youssef Zalal,Josh Emmett,0,0,0,0,1,0,1,0,Featherweight,SUB Armbar,1,1:38,8944a0f9b2f0ce6d
+d006dd2513bd376d,win,Joe Pyfer,Abus Magomedov,1,0,6,11,0,1,2,1,Middleweight,SUB Rear Naked Choke,2,1:46,8944a0f9b2f0ce6d
+9418ebb3db2a4bae,win,Ateba Gautier,Tre'ston Vines,1,0,6,0,1,0,0,0,Middleweight,KO/TKO Punches,1,1:41,8944a0f9b2f0ce6d
+7b34aa1eb09b8301,win,Daniel Santos,JooSang Yoo,1,0,27,31,1,0,0,0,Catch Weight,KO/TKO Punch,2,0:21,8944a0f9b2f0ce6d
+b09ecdc8ef0f0d20,win,Jakub Wiklacz,Patchy Mix,0,0,46,37,0,5,3,0,Bantamweight,S-DEC,3,5:00,8944a0f9b2f0ce6d
+1c7cc3a22ab7d907,win,Edmen Shahbazyan,Andre Muniz,1,0,25,15,0,1,0,0,Middleweight,KO/TKO Elbows,1,4:58,8944a0f9b2f0ce6d
+a951090fb402fd20,win,Punahele Soriano,Nikolay Veretennikov,0,0,39,9,4,0,1,2,Welterweight,U-DEC,3,5:00,8944a0f9b2f0ce6d
+8353b491afa7bc32,win,Yana Santos,Macy Chiasson,0,0,65,54,0,2,0,1,Women's Bantamweight,U-DEC,3,5:00,8944a0f9b2f0ce6d
+e53fd165a3bc1f8e,win,Farid Basharat,Chris Gutierrez,0,0,41,31,2,1,0,0,Bantamweight,U-DEC,3,5:00,8944a0f9b2f0ce6d
+b98bc1ecb94ef4a5,win,Ramiz Brahimaj,Austin Vanderford,0,0,21,5,0,3,2,0,Welterweight,SUB Guillotine Choke,2,2:24,8944a0f9b2f0ce6d
+98883348ddb3be33,win,Veronica Hardy,Brogan Walker,1,0,39,22,0,3,1,0,Women's Flyweight,U-DEC,3,5:00,8944a0f9b2f0ce6d
+a3ee907c77544cde,win,Carlos Ulberg,Dominick Reyes,1,0,11,5,0,0,0,0,Light Heavyweight,KO/TKO Punches,1,4:27,ed220e87bef0cc64
+f5fb8b182020c59d,win,Jimmy Crute,Ivan Erslan,0,0,12,10,2,0,1,0,Light Heavyweight,SUB Rear Naked Choke,1,3:19,ed220e87bef0cc64
+38248c5d13f273e6,win,Jack Jenkins,Ramon Taveras,0,0,65,43,3,0,1,0,Featherweight,U-DEC,3,5:00,ed220e87bef0cc64
+1ff24d5f760e0491,win,Neil Magny,Jake Matthews,0,0,31,18,3,0,1,3,Welterweight,SUB D'Arce Choke,3,3:08,ed220e87bef0cc64
+8abad36b4c5e4070,win,Tom Nolan,Charlie Campbell,0,0,26,15,1,0,1,0,Lightweight,SUB Rear Naked Choke,1,4:08,ed220e87bef0cc64
+dc31d3260dea7dcf,win,Navajo Stirling,Rodolfo Bellato,0,0,81,43,1,2,0,0,Light Heavyweight,U-DEC,3,5:00,ed220e87bef0cc64
+93a0a19c2c1cfe66,win,Cam Rowston,Andre Petroski,1,0,12,7,0,0,0,0,Middleweight,KO/TKO Punches,1,2:41,ed220e87bef0cc64
+e2dc4fb7b5c0ce76,win,Jamie Mullarkey,Rolando Bedoya,0,0,43,46,3,0,0,1,Lightweight,U-DEC,3,5:00,ed220e87bef0cc64
+81127436605d3c88,win,Colby Thicknesse,Josias Musasa,0,0,62,43,2,1,1,0,Bantamweight,U-DEC,3,5:00,ed220e87bef0cc64
+44cd8c9f622e155f,win,Michelle Montague,Luana Carolina,0,0,41,48,5,0,0,1,Women's Bantamweight,U-DEC,3,5:00,ed220e87bef0cc64
+140937779a2466a7,win,Brando Pericic,Elisha Ellison,0,0,29,3,0,0,0,0,Heavyweight,KO/TKO Punches,1,1:55,ed220e87bef0cc64
+e35f7504d83b8b07,win,Alexia Thainara,Loma Lookboonmee,0,0,44,30,5,0,1,0,Women's Strawweight,U-DEC,3,5:00,ed220e87bef0cc64
 de1a3734be60e6a1,win,Diego Lopes,Jean Silva,1,0,74,43,3,0,0,0,Featherweight,KO/TKO Punches,2,4:48,5efaaf313b652dd7
 944b929130b23c2a,win,David Martinez,Rob Font,0,0,62,49,0,0,0,0,Bantamweight,U-DEC,3,5:00,5efaaf313b652dd7
 7cbfeba85f86d1bf,win,Rafa Garcia,Jared Gordon,1,0,91,65,2,1,2,0,Lightweight,KO/TKO Elbows,3,2:27,5efaaf313b652dd7
