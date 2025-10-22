@@ -34,7 +34,7 @@ jobs:
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Run pipeline
-        run: python scripts/main.py
+        run: python main.py
 
       - name: Zip data folders
         run: |
