@@ -12,9 +12,8 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import KNNImputer
 import pandas as pd
-from helpers import base_path
 
-fights_df = pd.read_csv(base_path('data/Fights.csv'))
+fights_df = pd.read_csv('data/Fights.csv')
 
 # Metrics to aggregate for each fighter
 metrics = ['KD', 'STR', 'TD', 'SUB', 'Ctrl', 'Sig. Str. %', 'Head_%', 'Body_%', 'Leg_%',
@@ -39,7 +38,7 @@ fighter_stats = (
 )
 
 # Merging fighters with their aggregated stats
-fighters_df = pd.read_csv(base_path('data/Fighters.csv'))
+fighters_df = pd.read_csv('data/Fighters.csv')
 # The join should be inner to avoid missing values from both sides (I trued both left and right joins)
 fighters_df = fighters_df.join(fighter_stats, on='Full Name', how='inner')
 
@@ -281,4 +280,4 @@ corr_matrix = numeric_with_style.corr()
 
 fighters_df.head()
 
-fighters_df.to_csv(base_path("data/Fighters Stats.csv"))
+fighters_df.to_csv("data/Fighters Stats.csv")

@@ -13,9 +13,8 @@ Conversion Date: 2025-10-21T20:34:17.482Z
 
 import pandas as pd
 import numpy as np
-from helpers import base_path
 
-fighters_df = pd.read_csv(base_path('raw_data/raw_fighters.csv'))
+fighters_df = pd.read_csv('raw_data/raw_fighters.csv')
 
 fighters_df.head()
 
@@ -124,13 +123,13 @@ print_missing_values(fighters_df)
 # I think this is enough for cleaning fighters data
 
 
-fighters_df.to_csv(base_path('data/Fighters.csv'), index=False)
+fighters_df.to_csv('data/Fighters.csv', index=False)
 
 # ### CLeaning Events Data
 #
 
 
-events_df = pd.read_csv(base_path('raw_data/raw_events.csv'))
+events_df = pd.read_csv('raw_data/raw_events.csv')
 events_df.head()
 
 check_types(events_df)
@@ -143,7 +142,7 @@ print_missing_values(events_df)
 events_df['Date'] = pd.to_datetime(events_df['Date'], format="%B %d, %Y")
 events_df.head()
 
-events_df.to_csv(base_path('data/Events.csv'), index=False)
+events_df.to_csv('data/Events.csv', index=False)
 
 # Now let's get to the largest dataframe :)
 
@@ -152,7 +151,7 @@ events_df.to_csv(base_path('data/Events.csv'), index=False)
 
 
 fights_df = pd.read_csv(
-    base_path('raw_data/raw_fights_detailed.csv')).set_index('Fight_Id')
+    'raw_data/raw_fights_detailed.csv').set_index('Fight_Id')
 
 check_types(fights_df)
 
@@ -301,4 +300,4 @@ print(len(fights_of_missing_weight_1)+len(fights_of_missing_weight_2))
 # So maybe I'll consider dropping these fighters and their fights before training the model.
 
 
-fights_df.to_csv(base_path('data/Fights.csv'), index=False)
+fights_df.to_csv('data/Fights.csv', index=False)

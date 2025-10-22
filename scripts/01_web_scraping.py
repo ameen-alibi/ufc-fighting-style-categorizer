@@ -8,7 +8,7 @@ Conversion Date: 2025-10-21T20:32:10.980Z
 # ### Scrape Fighters Data
 
 
-from helpers import cached_request, base_path
+from helpers import cached_request
 from tqdm import tqdm
 import warnings
 from bs4 import MarkupResemblesLocatorWarning
@@ -77,9 +77,7 @@ fighters_df = pd.DataFrame(fighters_data)
 
 fighters_df.head()
 
-base_path('raw_data/raw_fighters.csv')
-
-fighters_df.to_csv(base_path('raw_data/raw_fighters.csv'), index=False)
+fighters_df.to_csv('raw_data/raw_fighters.csv', index=False)
 
 # ### Scrape Events
 
@@ -127,7 +125,7 @@ events_df = pd.DataFrame(events_dict)
 events_df.set_index('Event_Id', inplace=True)
 events_df.head()
 
-events_df.to_csv(base_path('raw_data/raw_events.csv'))
+events_df.to_csv('raw_data/raw_events.csv')
 
 # ### Scrape Events Details (Fights)
 
@@ -202,7 +200,7 @@ fights_df = pd.DataFrame(fights_dict)
 fights_df.set_index('Fight_Id', inplace=True)
 fights_df.head()
 
-fights_df.to_csv(base_path('raw_data/raw_fights.csv'))
+fights_df.to_csv('raw_data/raw_fights.csv')
 
 # There are more details about fights at the "/fight-details" route
 
@@ -312,4 +310,4 @@ len(details_df) == len(fights_df)
 combined_df = fights_df.merge(details_df, on='Fight_Id', how='left')
 combined_df.head()
 
-combined_df.to_csv(base_path('raw_data/raw_fights_detailed.csv'))
+combined_df.to_csv('raw_data/raw_fights_detailed.csv')
