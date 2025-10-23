@@ -231,10 +231,10 @@ explore_clusters('PCA Cluster')
 
 # Mapping cluster numbers to the corresponding fighting style
 map_dict = {
-    0: 'Striker',
-    1: 'Wrestler',
-    2: 'Hybrid',
-    3: 'No Clear Style'
+    0: 'Wrestler',
+    1: 'No Clear Style',
+    2: 'Striker',
+    3: 'Hybrid',
 }
 
 fighters_df['Fighting Style'] = fighters_df['PCA Cluster'].map(map_dict)
