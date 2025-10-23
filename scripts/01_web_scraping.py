@@ -290,12 +290,15 @@ for event in tqdm(
         leave=False,
         dynamic_ncols=True,
     ):
-        fight_details_link = fight['data-link']
-        fight_details_html = cached_request(fight_details_link)
-        fight_dict = parse_fight_details(fight_details_html)
-        fight_dict['Fight_Id'] = fight_details_link.split('/')[-1]
-        fight_dict['Event_Id'] = event_id
-        fights_list.append(fight_dict)
+        try:
+            fight_details_link = fight['data-link']
+            fight_details_html = cached_request(fight_details_link)
+            fight_dict = parse_fight_details(fight_details_html)
+            fight_dict['Fight_Id'] = fight_details_link.split('/')[-1]
+            fight_dict['Event_Id'] = event_id
+            fights_list.append(fight_dict)
+        except:
+            continue
 
 details_df = pd.DataFrame(fights_list)
 details_df.set_index('Fight_Id', inplace=True)

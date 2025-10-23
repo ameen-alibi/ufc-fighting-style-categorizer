@@ -42,8 +42,6 @@ fighters_df = pd.read_csv('data/Fighters.csv')
 # The join should be inner to avoid missing values from both sides (I trued both left and right joins)
 fighters_df = fighters_df.join(fighter_stats, on='Full Name', how='inner')
 
-fighters_df.dtypes
-
 # We may need Weight Class and Gender for recommending fighters later.
 
 
@@ -76,7 +74,6 @@ fighters_df['Gender'] = fighters_df['Weight_Class'].str.startswith(
     'Women').map({True: 'Female', False: 'Male'})
 
 # fighters_df.set_index('Full Name',inplace=True)
-fighters_df.head()
 
 # The data is here let's get to preprocessing
 
@@ -206,14 +203,11 @@ def explore_clusters(col):
         print()
 
 
-explore_clusters('Cluster')
-
-
 # There is no clear separated clusters. However the UMAP visualization seems to be the best, having the minimum of overlapping points
 
-
 # Testing the model on the reduced dataset
-
+pca_km.fit(X_pca)
+fighters_df['PCA Cluster'] = pca_km.predict(X_pca)
 
 # > `PCA_km` model is far more **precise** than `km`
 #
