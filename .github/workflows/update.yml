@@ -24,17 +24,17 @@ jobs:
           restore-keys: |
             cached-html-
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
       - name: Configure Kaggle credentials
         run: |
-          mkdir -p ~/.kaggle
-          echo "{\"username\":\"aminealibi\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json
+          mkdir -p /home/runner/work/ufc-fighting-style-categorizer/.kaggle
+          echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > /home/runner/work/ufc-fighting-style-categorizer/.kaggle/kaggle.json
+          chmod 600 /home/runner/work/ufc-fighting-style-categorizer/.kaggle
 
-      - name: Run pipeline
-        run: python main.py
+      # - name: Install dependencies
+      #   run: pip install -r requirements.txt
+
+      # - name: Run pipeline
+      #   run: python main.py
 
       - name: Zip data folders
         run: |
