@@ -258,7 +258,7 @@ def parse_fight_details(fight_html):
 
         # Totals table
         totals_table = tables_soup[0]
-        extract_cells(totals_table, fight_dict, cols_to_ignore=1)
+        extract_cells(totals_table, fight_dict, cols_to_ignore=0)
 
         # Significant strikes table
         sig_str_table = tables_soup[2]
@@ -309,8 +309,39 @@ details_df.to_csv('raw_data/raw_details.csv')
 
 len(details_df) == len(fights_df)
 
+\
 # Join fights with their details on fight_id and keep it as the index
 combined_df = fights_df.merge(details_df, on='Fight_Id', how='left')
 combined_df.head()
+
+# Using details_df fighter names because they are compatible with the stats order
+# If fighter_1_x == fighter_1_y keep the stats as they are and just remove fighter_1_y and keep the fighter_1_x with renaming it to fighter_1
+# If fighter_1_x == fighter_2_y . swap only the fights_df columns and keep the details_df columns:
+#   col_1,col_2 =  col_2,col_1
+cols_to_swap = ['KD_', 'STR_', 'TD_', 'SUB_']
+
+for idx in combined_df.index:
+    fighter_1_x = combined_df.loc[idx, 'Fighter_1_x']
+    fighter_2_x = combined_df.loc[idx, 'Fighter_2_x']
+    fighter_1_y = combined_df.loc[idx, 'Fighter_1_y']
+    fighter_2_y = combined_df.loc[idx, 'Fighter_2_y']
+
+    # If fighter_1_x matches fighter_2_y, we need to swap all _y columns
+    if fighter_1_x == fighter_2_y and fighter_2_x == fighter_1_y:
+        combined_df.loc[idx, ['Fighter_1_x', 'Fighter_2_x']] = combined_df.loc[idx, [
+            'Fighter_2_x', 'Fighter_1_x']].values
+
+        # Swap stats columns
+        for col in cols_to_swap:
+            col1 = f'{col}1'
+            col2 = f'{col}2'
+            combined_df.loc[idx, [col1, col2]
+                            ] = combined_df.loc[idx, [col2, col1]].values
+
+combined_df.drop(columns=['Fighter_1_y', 'Fighter_2_y'], inplace=True)
+combined_df.rename(columns={
+    'Fighter_1_x': 'Fighter_1',
+    'Fighter_2_x': 'Fighter_2'
+}, inplace=True)
 
 combined_df.to_csv('raw_data/raw_fights_detailed.csv')
