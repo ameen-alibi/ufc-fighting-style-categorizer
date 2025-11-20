@@ -38,7 +38,7 @@ jobs:
 
       - name: Create zip files
         run: |
-          mkdir -p upload
+          mkdir -p upload_ready
           TODAY=$(date '+%Y-%m-%d')
             zip -jr "upload_ready/data.zip" data/
             zip -jr "upload_ready/raw_data.zip" raw_data/
