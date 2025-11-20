@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update:
+  update-and-upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,25 +21,28 @@ jobs:
         with:
           path: cached_html
           key: cached-html-${{ github.run_number }}
-          restore-keys: |
-            cached-html-
 
       - name: Configure Kaggle credentials
         run: |
-          mkdir -p /home/runner/work/ufc-fighting-style-categorizer/.kaggle
-          echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > /home/runner/work/ufc-fighting-style-categorizer/.kaggle/kaggle.json
-          chmod 600 /home/runner/work/ufc-fighting-style-categorizer/.kaggle
+          mkdir -p ~/.kaggle
+          echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
 
-      # - name: Install dependencies
-      #   run: pip install -r requirements.txt
-
-      # - name: Run pipeline
-      #   run: python main.py
-
-      - name: Zip data folders
+      - name: Install dependencies + Kaggle CLI
         run: |
-          zip -r upload/data.zip data/
-          zip -r upload/raw_data.zip raw_data/
-      - name: Upload Dataset to Kaggle
+          pip install -r requirements.txt
+          pip install kaggle
+
+      - name: Run pipeline
+        run: python main.py
+
+      - name: Create zip files
         run: |
-          kaggle datasets version -p upload -m "Upload new dataset version with cleaned + raw data"
+          mkdir -p upload
+          TODAY=$(date '+%Y-%m-%d')
+            zip -jr "upload_ready/data.zip" data/
+            zip -jr "upload_ready/raw_data.zip" raw_data/
+
+      - name: Upload new version
+        run: |
+          kaggle datasets version -p upload_ready -m "Automated monthly update — $(date '+%Y-%m-%d')"
