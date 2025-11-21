@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: "0 0 1 * *"
   workflow_dispatch:
+    inputs:
+      jobs_to_run:
+        description: "Select the jobs to run"
+        required: true
+        type: choice
+        options:
+          - all
+          - update-and-upload
+        default: all
 
 jobs:
   update-and-upload:
