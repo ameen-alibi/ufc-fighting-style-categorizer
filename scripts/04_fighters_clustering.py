@@ -229,12 +229,30 @@ explore_clusters('PCA Cluster')
 # - **Cluster 3** has nothing significant: so they will be labeled as 'No Fighting Style'.
 
 
-# Mapping cluster numbers to the corresponding fighting style
+style_dummies = pd.get_dummies(fighters_df['PCA Cluster'])
+temp_df = pd.concat([fighters_df.select_dtypes(
+    exclude=['object', 'category', 'boolean']), style_dummies], axis=1)
+corr_matrix = temp_df.corr()
+corr_matrix = corr_matrix.loc[corr_matrix.drop(
+    columns=[0, 1, 2, 3]).columns, [0, 1, 2, 3]]
+
+# Using correlation to map numerical fighting classes to their meaning
+striking_cols = ['KD', 'STR', 'Sig. Str. %',
+                 'Head_%', 'Body_%', 'Leg_%', 'Distance_%']
+wrestling_cols = ['TD', 'SUB', 'Ctrl', 'Ground_%', 'Sub. Att', 'Rev.',]
+
+striker = corr_matrix.transpose()[striking_cols].mean(axis=1).idxmax()
+wrestler = corr_matrix.transpose()[wrestling_cols].mean(axis=1).idxmax()
+no_style = corr_matrix.transpose().mean(axis=1).idxmin()
+# We use 6 - sum(already_assigned_classes) to get the index of the remaining class which is hybrid
+hybrid = 6 - (striker+wrestler+no_style)
+
+# Building the hashmap dynammically
 map_dict = {
-    0: 'Wrestler',
-    1: 'No Clear Style',
-    2: 'Striker',
-    3: 'Hybrid',
+    striker: 'Striker',
+    wrestler: 'Wrestler',
+    hybrid: 'Hybrid',
+    no_style: 'No Clear Style',
 }
 
 fighters_df['Fighting Style'] = fighters_df['PCA Cluster'].map(map_dict)
