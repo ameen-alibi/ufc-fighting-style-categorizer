@@ -11,7 +11,7 @@ on:
         type: choice
         options:
           - all
-          - update-and-upload
+          - upload-only
         default: all
 
 jobs:
@@ -43,6 +43,7 @@ jobs:
           pip install kaggle
 
       - name: Run pipeline
+        if: github.event.inputs.jobs_to_run != 'upload-only'
         run: python main.py
 
       - name: Create zip files
