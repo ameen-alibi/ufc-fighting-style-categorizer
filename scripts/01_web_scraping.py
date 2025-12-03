@@ -281,15 +281,7 @@ for event in tqdm(
 ):
     event_id, fights = extract_fights_from_event(event)
     fights_total = len(fights)
-    for fight in tqdm(
-        fights,
-        total=fights_total,
-        desc="Fights",
-        unit="fight",
-        position=1,
-        leave=False,
-        dynamic_ncols=True,
-    ):
+    for fight in fights:
         try:
             fight_details_link = fight['data-link']
             fight_details_html = cached_request(fight_details_link)

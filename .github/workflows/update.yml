@@ -48,11 +48,10 @@ jobs:
 
       - name: Create zip files
         run: |
-          mkdir -p upload_ready
-          TODAY=$(date '+%Y-%m-%d')
-            zip -jr "upload_ready/data.zip" data/
-            zip -jr "upload_ready/raw_data.zip" raw_data/
+          zip -jr "upload_ready/data.zip" data/
+          zip -jr "upload_ready/raw_data.zip" raw_data/
 
       - name: Upload new version
         run: |
-          kaggle datasets version -p upload_ready -m "Automated monthly update — $(date '+%Y-%m-%d')"
+          TODAY=$(date '+%Y-%m-%d')
+          kaggle datasets version -p upload_ready -m "Automated monthly update — ${TODAY}"
