@@ -16,7 +16,7 @@ import pandas as pd
 fights_df = pd.read_csv('data/Fights.csv')
 
 # Metrics to aggregate for each fighter
-metrics = ['KD', 'STR', 'TD', 'SUB', 'Ctrl', 'Sig. Str. %', 'Head_%', 'Body_%', 'Leg_%',
+metrics = ['Fighter_Id', 'KD', 'STR', 'TD', 'SUB', 'Ctrl', 'Sig. Str. %', 'Head_%', 'Body_%', 'Leg_%',
            'Distance_%', 'Clinch_%', 'Ground_%', 'Sub. Att', 'Rev.']
 
 # Per-fight rows for Fighter_1
@@ -32,40 +32,40 @@ df2 = fights_df[['Fighter_2', 'Round'] + [f'{m}_2' for m in metrics]].rename(
 # Concating the two dataframes and averaging each fighter's statistics
 fighter_stats = (
     pd.concat([df1, df2], ignore_index=True)
-      .groupby('Full Name')
-      .mean().round(2)
+      .groupby('Fighter_Id')
+      .agg({col: 'mean' for col in df1.select_dtypes(include='number').columns})
+      .round(2)
       .sort_index()
 )
 
 # Merging fighters with their aggregated stats
 fighters_df = pd.read_csv('data/Fighters.csv')
 # The join should be inner to avoid missing values from both sides (I trued both left and right joins)
-fighters_df = fighters_df.join(fighter_stats, on='Full Name', how='inner')
-
-# We may need Weight Class and Gender for recommending fighters later.
-
+fighters_df = fighters_df.join(fighter_stats, on='Fighter_Id', how='inner')
 
 # Get each fighter's weightclass from the Fights dataset
 
 fighters_weight_class = pd.concat(
     [
-        fights_df[['Fighter_1', 'Weight_Class']].rename(
-            columns={'Fighter_1': 'Full Name'}),
-        fights_df[['Fighter_2', 'Weight_Class']].rename(
-            columns={'Fighter_2': 'Full Name'})
+        fights_df[['Fighter_Id_1', 'Weight_Class']].rename(
+            columns={'Fighter_Id_1': 'Fighter_Id'}),
+        fights_df[['Fighter_Id_2', 'Weight_Class']].rename(
+            columns={'Fighter_Id_2': 'Fighter_Id'})
     ]
 )
 
-fighters_weight_class['Full Name'] = fighters_weight_class['Full Name'].astype(
+fighters_weight_class['Fighter_Id'] = fighters_weight_class['Fighter_Id'].astype(
     'str')
 
 # Keep only the first occurence. Fights are already in a chronological order and we need to get last weight class a fighter played in
 fighters_weight_class = fighters_weight_class.drop_duplicates(
-    subset=['Full Name'], keep='first')
+    subset=['Fighter_Id'], keep='first')
+
+fighters_weight_class.set_index('Fighter_Id', inplace=True)
 
 # Join with fighters_df to add weight class information
 fighters_df = fighters_df.merge(
-    fighters_weight_class, on='Full Name', how='left')
+    fighters_weight_class, on='Fighter_Id', how='left')
 
 fighters_df['Weight_Class'].value_counts()
 
@@ -93,14 +93,6 @@ imputer.fit(fighters_df[['Ctrl', 'Sig. Str. %']])
 fighters_df[['Ctrl', 'Sig. Str. %']] = imputer.transform(
     fighters_df[['Ctrl', 'Sig. Str. %']])
 
-# Create a unique Fighter_Id by combining the first name, nickname, and last name
-fighters_df['Fighter_Id'] = (
-    fighters_df['Full Name'].str.split().str[0] + " '" +
-    fighters_df['Nickname'] + "' " +
-    fighters_df['Full Name'].str.split().str[1:].str.join(' ')
-)
-fighters_df['Fighter_Id'].duplicated().value_counts()
-# Fighter_Id can be an index to keep track of cluster results
 fighters_df.set_index('Fighter_Id', inplace=True)
 
 cols_to_drop = ['Full Name', 'Nickname']

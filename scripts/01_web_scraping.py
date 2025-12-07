@@ -38,14 +38,14 @@ for letter in alphabets:
         n_pages = len(pagination.find_all('li')) if pagination else 1
     # Initialize the fighters dict
     if letter == 'a':
-        headers = [th.get_text(strip=True)
-                   for th in soup.select("table thead th")]
+        headers = ['Fighter_Id']+[th.get_text(strip=True)
+                                  for th in soup.select("table thead th")]
         fighters_data = {header.title(): [] for header in headers}
 
     # Not adding 1 to the number of list items because
     # there is a link for "all"
     # for i in range(1, n_pages+1):
-    # The enumerated pages does not have all the fighters listed. I noticed that when I looked for Khabib & didn't find hime
+    # The enumerated pages does not have all the fighters listed. I noticed that when I looked for Khabib & didn't find him
     current_page = cached_request(
         f"{BASE_URL}?char={letter}&page=all")
     soup_1 = bs4.BeautifulSoup(current_page, 'html.parser')
@@ -60,7 +60,9 @@ for letter in alphabets:
         while len(cells) < len(headers):
             cells.append(None)
 
-        for header, cell in zip(headers, cells):
+        fighter_id = cells[0].select_one('a')['href'].split('/')[-1]
+        fighters_data['Fighter_Id'].append(fighter_id)
+        for header, cell in zip(headers[1:], cells):
             header = header.title()
             if cell:
                 if header == 'Belt':
@@ -132,6 +134,8 @@ events_df.to_csv('raw_data/raw_events.csv')
 
 def get_fights_data(cells):
     result_flag = cells[0].get_text(strip=True)
+    fighters_ids = [a['href'].split('/')[-1]
+                    for a in cells[1].select("a.b-link")]
     fighters = [a.get_text(strip=True)
                 for a in cells[1].select("a.b-link")]
     kd = [p.get_text(strip=True) for p in cells[2].select("p")]
@@ -144,7 +148,7 @@ def get_fights_data(cells):
     round_num = cells[8].get_text(strip=True)
     fight_time = cells[9].get_text(strip=True)
 
-    return [result_flag, *fighters, *kd, *strikes, *
+    return [result_flag, *fighters_ids, *fighters, *kd, *strikes, *
             td, *sub, weight_class, method, round_num, fight_time]
 
 
@@ -165,6 +169,8 @@ def extract_fights_from_event(event):
 # Initializing the dataframe dict
 fights_headers = ["Fight_Id",
                   "Win/No Contest/Draw",
+                  "Fighter_Id_1",
+                  "Fighter_Id_2",
                   "Fighter_1",
                   "Fighter_2",
                   "KD_1",
