@@ -1,6 +1,5 @@
 import hashlib
 import os
-import sys
 import requests
 
 
@@ -16,7 +15,6 @@ def cached_request(url, folder='cached_html'):
     os.makedirs(folder, exist_ok=True)
 
     filename = os.path.join(folder, url_to_filename(url))
-
     # Look for the requested page locally
     if os.path.exists(filename):
         with open(filename, 'r', encoding='utf-8') as f:

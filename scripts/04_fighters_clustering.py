@@ -67,7 +67,6 @@ fighters_weight_class.set_index('Fighter_Id', inplace=True)
 fighters_df = fighters_df.merge(
     fighters_weight_class, on='Fighter_Id', how='left')
 
-fighters_df['Weight_Class'].value_counts()
 
 # Extract gender from Weight_Class
 fighters_df['Gender'] = fighters_df['Weight_Class'].str.startswith(
@@ -76,10 +75,6 @@ fighters_df['Gender'] = fighters_df['Weight_Class'].str.startswith(
 # fighters_df.set_index('Full Name',inplace=True)
 
 # The data is here let's get to preprocessing
-
-
-na_count = fighters_df.isna().sum()
-na_count[na_count > 0]
 
 # 25% of fighters have missing Reach + I do not think Reach is important for clustering fighters into different styles
 fighters_df.drop(columns='Reach', inplace=True)
@@ -126,7 +121,7 @@ def train_kmeans(X):
     bouldin_scores = []
 
     for i in range(2, 20):
-        km = KMeans(n_clusters=i, random_state=77)
+        km = KMeans(n_clusters=i, random_state=42)
         km.fit(X)
         labels = km.predict(X)
         kms.append(km)

@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-Converted from Jupyter Notebook: notebook.ipynb
-Conversion Date: 2025-10-21T20:32:10.980Z
-"""
-
 # ### Scrape Fighters Data
 
 
@@ -16,8 +9,6 @@ import pandas as pd
 import string
 import bs4
 import requests
-import sys
-import os
 
 BASE_URL = "http://ufcstats.com/statistics/fighters"
 
@@ -28,30 +19,29 @@ warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 # The page is organized by fighters names so I decided to
 # Loop through different pages using an alphabets list
 alphabets = list(string.ascii_lowercase)
-for letter in alphabets:
-    fighters_DOM_per_letter = cached_request(
-        f"{BASE_URL}?char={letter}")
-    soup = bs4.BeautifulSoup(fighters_DOM_per_letter, 'html.parser')
-    pagination = soup.find('ul', class_='b-statistics__paginate')
-    n_pasges = 1
-    if pagination:
-        n_pages = len(pagination.find_all('li')) if pagination else 1
-    # Initialize the fighters dict
-    if letter == 'a':
-        headers = ['Fighter_Id']+[th.get_text(strip=True)
-                                  for th in soup.select("table thead th")]
-        fighters_data = {header.title(): [] for header in headers}
 
+for letter in tqdm(
+        alphabets,
+        total=len(alphabets),
+        desc="Fighters",
+        unit="fighter",
+        leave=True,
+        dynamic_ncols=True):
     # Not adding 1 to the number of list items because
-    # there is a link for "all"
-    # for i in range(1, n_pages+1):
     # The enumerated pages does not have all the fighters listed. I noticed that when I looked for Khabib & didn't find him
+    # + there is a link for "all"
     current_page = cached_request(
         f"{BASE_URL}?char={letter}&page=all")
     soup_1 = bs4.BeautifulSoup(current_page, 'html.parser')
+    # Initialize the fighters dict
+    if letter == 'a':
+        headers = ['Fighter_Id']+[th.get_text(strip=True)
+                                  for th in soup_1.select("table thead th")]
+        fighters_data = {header.title(): [] for header in headers}
 
+    rows = soup_1.select("table tbody tr")
     # Scraping fighters tabular data
-    for row in soup_1.select("table tbody tr"):
+    for row in rows:
         cells = row.find_all('td', class_='b-statistics__table-col')
 
         if len(cells) == 0:
@@ -75,9 +65,8 @@ for letter in alphabets:
             else:
                 fighters_data[header].append(None)
 
-fighters_df = pd.DataFrame(fighters_data)
 
-fighters_df.head()
+fighters_df = pd.DataFrame(fighters_data)
 
 fighters_df.to_csv('raw_data/raw_fighters.csv', index=False)
 
@@ -191,7 +180,14 @@ fights_dict = {header: [] for header in fights_headers}
 
 # I already have events_rows
 # Loop through them
-for event in events_rows:
+for event in tqdm(
+    events_rows,
+    total=len(events_rows),
+    desc="Events",
+    unit="event",
+    leave=True,
+    dynamic_ncols=True
+):
     event_id, fight_rows = extract_fights_from_event(event)
     for fight_row in fight_rows:
         cells = fight_row.select('td')
@@ -281,7 +277,6 @@ for event in tqdm(
     total=events_total,
     desc="Events",
     unit="event",
-    position=0,
     leave=True,
     dynamic_ncols=True,
 ):
