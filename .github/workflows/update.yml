@@ -44,9 +44,9 @@ jobs:
       - name: Commit and push changes
         if: github.event.inputs.jobs_to_run != 'upload-only'
         run: |
-          TODAY=$(date '+%Y-%m-%d')
           git config --local user.email "ameen_alibi@proton.me"
           git config --local user.name "ameen-alibi"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add data/*.csv raw_data/*.csv
           git diff --staged --quiet || git commit -m "Auto-update: Dataset updated on $(date '+%Y-%m-%d')"
           git push
@@ -58,4 +58,5 @@ jobs:
 
       - name: Upload new version
         run: |
+          TODAY=$(date '+%Y-%m-%d')
           kaggle datasets version -p upload_ready -m "Automated monthly update — ${TODAY}"
