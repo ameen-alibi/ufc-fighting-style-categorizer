@@ -59,4 +59,4 @@ jobs:
       - name: Upload new version
         run: |
           TODAY=$(date '+%Y-%m-%d')
-          kaggle datasets create -p -p upload_ready 
+          kaggle datasets create -p upload_ready 
