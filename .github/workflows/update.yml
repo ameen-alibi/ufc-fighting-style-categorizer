@@ -17,6 +17,8 @@ on:
 jobs:
   update-and-upload:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -24,12 +26,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
-
-      - name: Cache HTML files
-        uses: actions/cache@v3
-        with:
-          path: cached_html
-          key: cached-html-${{ github.run_number }}
 
       - name: Configure Kaggle credentials
         run: |
@@ -40,7 +36,6 @@ jobs:
       - name: Install dependencies + Kaggle CLI
         run: |
           pip install -r requirements.txt
-          pip install kaggle
 
       - name: Run pipeline
         if: github.event.inputs.jobs_to_run != 'upload-only'
