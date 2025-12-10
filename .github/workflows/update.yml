@@ -40,12 +40,6 @@ jobs:
           zip -jr "upload_ready/data.zip" data/
           zip -jr "upload_ready/raw_data.zip" raw_data/
 
-      - name: Upload artifact for the upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: kaggle-dataset
-          path: upload_ready/
-          retention-days: 1
 
       - name: Commit and push changes
         run: |
@@ -62,13 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download files from the artifact
-        if: github.event.inputs.jobs_to_run != 'upload-only'
-        uses: actions/download-artifact@v4
         with:
-          name: kaggle-dataset
-          path: upload_ready/
+          ref : ${{github.ref_name}}
 
       - name: Configure Kaggle credentials
         run: |
