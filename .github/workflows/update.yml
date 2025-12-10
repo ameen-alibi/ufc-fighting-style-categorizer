@@ -67,7 +67,7 @@ jobs:
         if: github.event.inputs.jobs_to_run != 'upload-only'
         uses: actions/download-artifact@v4
         with:
-          name: kaggle-upload-files
+          name: kaggle-dataset
           path: upload_ready/
 
       - name: Configure Kaggle credentials
