@@ -6,4 +6,3 @@ scikit-learn
 umap-learn
 tqdm
 seaborn
-kaggle

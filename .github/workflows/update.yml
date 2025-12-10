@@ -15,7 +15,8 @@ on:
         default: all
 
 jobs:
-  update-and-upload:
+  update:
+    if: github.event == 'schedule' || github.event.inputs.jobs_to_run == 'all'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,36 +28,44 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Configure Kaggle credentials
-        run: |
-          mkdir -p ~/.kaggle
-          echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json
-
       - name: Install dependencies + Kaggle CLI
         run: |
           pip install -r requirements.txt
 
       - name: Run pipeline
-        if: github.event.inputs.jobs_to_run != 'upload-only'
         run: python main.py
-
-      - name: Commit and push changes
-        if: github.event.inputs.jobs_to_run != 'upload-only'
-        run: |
-          git config --local user.email "ameen_alibi@proton.me"
-          git config --local user.name "ameen-alibi"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git add data/*.csv raw_data/*.csv
-          git diff --staged --quiet || git commit -m "Auto-update: Dataset updated on $(date '+%Y-%m-%d')"
-          git push
 
       - name: Create zip files
         run: |
           zip -jr "upload_ready/data.zip" data/
           zip -jr "upload_ready/raw_data.zip" raw_data/
 
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "ameen_alibi@proton.me"
+          git config --local user.name "ameen-alibi"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git add data/*.csv raw_data/*.csv
+          git diff --staged --quiet || git commit -m "Auto-update: Dataset updated on $(date '+%Y-%m-%d')"
+          git push origin HEAD:${{github.ref_name}}
+
+  upload:
+    needs: update
+    if: always() && (github.event_name == 'schedule' ||github.event.inputs.jobs_to_run == 'all' ||github.event.inputs.jobs_to_run == 'upload-only')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Kaggle credentials
+        run: |
+          mkdir -p ~/.kaggle
+          echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: Download Kaggle CLI
+        run: pip install kaggle
+
       - name: Upload new version
         run: |
           TODAY=$(date '+%Y-%m-%d')
-          kaggle datasets create -p upload_ready 
+          kaggle datasets create -p upload_ready
