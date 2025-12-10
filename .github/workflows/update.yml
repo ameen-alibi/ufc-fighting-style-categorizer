@@ -69,4 +69,4 @@ jobs:
         run: |
           TODAY=$(date '+%Y-%m-%d')
           cd upload_ready
-          kaggle datasets version -p . -m "Automated update — ${TODAY}" -v
+          kaggle datasets version -p . -m "Automated update — ${TODAY}"
