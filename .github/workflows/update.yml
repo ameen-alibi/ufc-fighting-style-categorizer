@@ -74,7 +74,5 @@ jobs:
       - name: Upload new version
         run: |
           TODAY=$(date '+%Y-%m-%d')
-          kaggle datasets version -p upload_ready \
-                      --dir-mode zip \
-                      --delete \
+          kaggle datasets version --delete-old-versions -p upload_ready \
                       -m "Automated update — $TODAY"
