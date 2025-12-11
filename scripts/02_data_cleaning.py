@@ -25,7 +25,7 @@ def check_types(df):
 
 fighters_df.columns
 
-check_types(fighters_df)
+# check_types(fighters_df)
 
 
 def number_of_values(df):
@@ -35,7 +35,7 @@ def number_of_values(df):
     print("="*70)
 
 
-number_of_values(fighters_df)
+# number_of_values(fighters_df)
 
 # print(len("================ Columns having missing values ================"))
 
@@ -118,7 +118,7 @@ for col in ['W', 'L', 'D']:
 
 fighters_df.head()
 
-print_missing_values(fighters_df)
+# print_missing_values(fighters_df)
 
 # I think this is enough for cleaning fighters data
 
@@ -132,9 +132,9 @@ fighters_df.to_csv('data/Fighters.csv', index=False)
 events_df = pd.read_csv('raw_data/raw_events.csv')
 events_df.head()
 
-check_types(events_df)
+# check_types(events_df)
 
-print_missing_values(events_df)
+# print_missing_values(events_df)
 
 # ! Perfect
 
@@ -153,7 +153,7 @@ events_df.to_csv('data/Events.csv', index=False)
 fights_df = pd.read_csv(
     'raw_data/raw_fights_detailed.csv').set_index('Fight_Id')
 
-check_types(fights_df)
+# check_types(fights_df)
 
 
 def values_count(df):
@@ -283,7 +283,7 @@ clean_fights_df()
 
 fights_df.columns
 
-print_missing_values(fights_df)
+# print_missing_values(fights_df)
 
 # I can not impute `['Wt.', 'Ht.','Reach']` by their means grouped by the current fighter `weight_class` because there is nearly no fights recorded for players with missing weight
 
@@ -293,8 +293,6 @@ fights_of_missing_weight_1 = fights_df[fights_df['Fighter_1'].isin(
     missing_weight)]
 fights_of_missing_weight_2 = fights_df[fights_df['Fighter_2'].isin(
     missing_weight)]
-print(len(missing_weight))
-print(len(fights_of_missing_weight_1)+len(fights_of_missing_weight_2))
 
 # Doing this for all the columns I wanted to impute revealed a huge difference between the length of the two subsets.
 # So maybe I'll consider dropping these fighters and their fights before training the model.
