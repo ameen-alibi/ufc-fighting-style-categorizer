@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 scripts = [
-    # "scripts/01_web_scraping.py",
+    "scripts/01_web_scraping.py",
     "scripts/02_data_cleaning.py",
     "scripts/04_fighters_clustering.py"
 ]
