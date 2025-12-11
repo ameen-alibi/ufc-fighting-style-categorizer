@@ -37,8 +37,8 @@ jobs:
 
       - name: Create zip files
         run: |
-          zip -r "upload_ready/data.zip" data/
-          zip -r "upload_ready/raw_data.zip" raw_data/
+          cd data && zip -r ../upload_ready/data.zip * && cd ..
+          cd raw_data && zip -r ../upload_ready/raw_data.zip * && cd ..
 
       - name: Commit and push changes
         run: |
