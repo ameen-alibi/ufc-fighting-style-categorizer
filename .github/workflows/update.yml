@@ -40,7 +40,6 @@ jobs:
           zip -r "upload_ready/data.zip" data/
           zip -r "upload_ready/raw_data.zip" raw_data/
 
-
       - name: Commit and push changes
         run: |
           git config --local user.email "ameen_alibi@proton.me"
