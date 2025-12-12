@@ -15,17 +15,22 @@ import pandas as pd
 
 fights_df = pd.read_csv('data/Fights.csv')
 
+
+fights_df['Avg Fight Time'] = fights_df['Fight_Time'].str.split(':').str[0].astype(int) * 60 \
+    + fights_df['Fight_Time'].str.split(':').str[1].astype(int) \
+    + (fights_df['Round'] - 1) * 5 * 60
+
 # Metrics to aggregate for each fighter
 metrics = ['Fighter_Id', 'KD', 'STR', 'TD', 'SUB', 'Ctrl', 'Sig. Str. %', 'Head_%', 'Body_%', 'Leg_%',
            'Distance_%', 'Clinch_%', 'Ground_%', 'Sub. Att', 'Rev.']
 
 # Per-fight rows for Fighter_1
-df1 = fights_df[['Fighter_1', 'Round'] + [f'{m}_1' for m in metrics]].rename(
+df1 = fights_df[['Fighter_1', 'Round', 'Avg Fight Time'] + [f'{m}_1' for m in metrics]].rename(
     columns={'Fighter_1': 'Full Name', **{f'{m}_1': m for m in metrics}}
 )
 
 # Per-fight rows for Fighter_2
-df2 = fights_df[['Fighter_2', 'Round'] + [f'{m}_2' for m in metrics]].rename(
+df2 = fights_df[['Fighter_2', 'Round', 'Avg Fight Time'] + [f'{m}_2' for m in metrics]].rename(
     columns={'Fighter_2': 'Full Name', **{f'{m}_2': m for m in metrics}}
 )
 
@@ -37,6 +42,7 @@ fighter_stats = (
       .round(2)
       .sort_index()
 )
+fighter_stats.rename(columns={'Round': 'Avg Rounds'}, inplace=True)
 
 # Merging fighters with their aggregated stats
 fighters_df = pd.read_csv('data/Fighters.csv')
@@ -108,7 +114,7 @@ X[num_cols] = scaler.fit_transform(X[num_cols])
 # X['Win Ratio'] = X['W'] / (X['W'] + X['L'] + X['D'])
 
 # Finding this comment helped me improve my model
-X.drop(columns=['Stance', 'Belt', 'Round',
+X.drop(columns=['Stance', 'Belt', 'Avg Rounds',
        'Weight_Class', 'Gender'], inplace=True)
 
 
@@ -258,7 +264,7 @@ numeric_with_style = pd.concat([fighters_df.select_dtypes(
     exclude=['object', 'bool', 'category']), style_dummies], axis=1)
 
 # Also removing feature that the model was not trained on
-no_train_cols = ['Ht.', 'Wt.', 'W', 'L', 'D', 'Round']
+no_train_cols = ['Ht.', 'Wt.', 'W', 'L', 'D', 'Avg Rounds']
 numeric_with_style.drop(columns=no_train_cols, inplace=True)
 
 
