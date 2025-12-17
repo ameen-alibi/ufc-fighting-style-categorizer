@@ -151,7 +151,7 @@ events_df.to_csv('data/Events.csv', index=False)
 
 
 fights_df = pd.read_csv(
-    'raw_data/raw_fights_detailed.csv').set_index('Fight_Id')
+    'raw_data/raw_fights_detailed.csv')
 
 # check_types(fights_df)
 
