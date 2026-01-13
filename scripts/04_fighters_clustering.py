@@ -12,6 +12,7 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import KNNImputer
 import pandas as pd
+import numpy as np
 
 fights_df = pd.read_csv('data/Fights.csv')
 
@@ -284,5 +285,23 @@ corr_matrix = numeric_with_style.corr()
 
 
 fighters_df.head()
+
+distances = pca_km.transform(X_pca)
+
+def distance_to_membership(distances, alpha=1.0):
+    exp_distances = np.exp(alpha * -(distances+1e-10))
+    memberships = exp_distances / exp_distances.sum(axis=1, keepdims=True)
+
+    return memberships
+
+
+memberships = distance_to_membership(distances, alpha=2.0)
+
+fighters_df['Striker_Membership'] = memberships[:, striker]
+fighters_df['Wrestler_Membership'] = memberships[:, wrestler]
+fighters_df['Hybrid_Membership'] = memberships[:, hybrid]
+fighters_df['NoStyle_Membership'] = memberships[:, no_style]
+
+
 
 fighters_df.to_csv("data/Fighters Stats.csv")

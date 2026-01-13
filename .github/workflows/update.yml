@@ -35,11 +35,6 @@ jobs:
       - name: Run pipeline
         run: python main.py
 
-      - name: Create zip files
-        run: |
-          cd data && zip -r ../upload_ready/data.zip * && cd ..
-          cd raw_data && zip -r ../upload_ready/raw_data.zip * && cd ..
-
       - name: Commit and push changes
         run: |
           git config --local user.email "ameen_alibi@proton.me"
@@ -66,6 +61,12 @@ jobs:
 
       - name: Download Kaggle CLI
         run: pip install kaggle
+      
+      - name: Create zip files
+        run: |
+          cd data && zip -r ../upload_ready/data.zip * && cd ..
+          cd raw_data && zip -r ../upload_ready/raw_data.zip * && cd ..
+
 
       - name: Verify files
         run: ls -lah upload_ready/
