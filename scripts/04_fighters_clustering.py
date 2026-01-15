@@ -5,6 +5,7 @@ Converted from Jupyter Notebook: 02_data_cleaning.ipynb
 Conversion Date: 2025-10-21T20:37:39.172Z
 """
 
+import re
 from sklearn.decomposition import PCA
 import umap
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
@@ -117,6 +118,53 @@ X[num_cols] = scaler.fit_transform(X[num_cols])
 # Finding this comment helped me improve my model
 X.drop(columns=['Stance', 'Belt', 'Avg Rounds',
        'Weight_Class', 'Gender'], inplace=True)
+
+
+win_condition_1 = fights_df['Result_1'] == 'W'
+win_condition_2 = fights_df['Result_2'] == 'W'
+fighters_finishes = pd.concat(
+    [
+        fights_df[win_condition_1][['Fighter_Id_1', 'Result_1', 'Method']].rename(
+            columns={'Fighter_Id_1': 'Fighter_Id', 'Result_1': 'Result'}),
+        fights_df[win_condition_2][['Fighter_Id_2', 'Result_2', 'Method']].rename(
+            columns={'Fighter_Id_2': 'Fighter_Id', 'Result_2': 'Result'}),
+    ]
+)
+
+knockout_pattern = r'KO|TKO|Knockout|Punches|Punch|Strikes?|Elbows?|Knees?'
+submission_pattern = r'.?Sub.?|Choke|Arm|Leg|Neck|Triangle|Guillotine|Kimura|Armbar|Kneebar|Heel Hook|Rear Naked|Anaconda|D\'Arce|Brabo|Calf|Toe Hold'
+
+
+def categorize_finish(method):
+    if pd.isna(method):
+        return 'Other'
+
+    method = str(method)
+    if re.search(knockout_pattern, method, re.IGNORECASE):
+        return 'KO'
+    # Check for submissions
+    elif re.search(submission_pattern, method, re.IGNORECASE):
+        return 'SUB'
+    else:
+        return 'Other'
+
+
+fighters_finishes['Finish Category'] = fighters_finishes['Method'].apply(
+    categorize_finish)
+finishes_count = fighters_finishes.groupby(
+    'Fighter_Id')['Finish Category'].value_counts().unstack(fill_value=0)
+finishes_count.columns = [f'{col} Count' for col in finishes_count.columns]
+finishes_count['UFC Wins'] = finishes_count.sum(axis=1)
+finishes_count['KO Rate'] = finishes_count['KO Count'] / \
+    finishes_count['UFC Wins']
+finishes_count['SUB Rate'] = finishes_count['SUB Count'] / \
+    finishes_count['UFC Wins']
+finishes_count.drop(columns=['UFC Wins', 'KO Count',
+                    'SUB Count', 'Other Count'], inplace=True)
+
+fighters_df = fighters_df.join(finishes_count, on='Fighter_Id')
+fighters_df[['KO Rate', 'SUB Rate']] = fighters_df[[
+    'KO Rate', 'SUB Rate']].fillna(0).astype('float64')
 
 
 def train_kmeans(X):
