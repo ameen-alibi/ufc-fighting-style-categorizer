@@ -119,7 +119,6 @@ X[num_cols] = scaler.fit_transform(X[num_cols])
 X.drop(columns=['Stance', 'Belt', 'Avg Rounds',
        'Weight_Class', 'Gender'], inplace=True)
 
-
 win_condition_1 = fights_df['Result_1'] == 'W'
 win_condition_2 = fights_df['Result_2'] == 'W'
 fighters_finishes = pd.concat(
@@ -131,8 +130,9 @@ fighters_finishes = pd.concat(
     ]
 )
 
-knockout_pattern = r'KO|TKO|Knockout|Punches|Punch|Strikes?|Elbows?|Knees?'
-submission_pattern = r'.?Sub.?|Choke|Arm|Leg|Neck|Triangle|Guillotine|Kimura|Armbar|Kneebar|Heel Hook|Rear Naked|Anaconda|D\'Arce|Brabo|Calf|Toe Hold'
+knockout_pattern = r'KO|Knockout|Punches?|Strikes?|Elbows?|Knees?'
+submission_pattern = r'Sub|Choke|Arm|Leg|Neck|Triangle|Guillotine|Kimura|Armbar|Kneebar|Heel Hook|Rear Naked|Anaconda|D\'Arce|Brabo|Calf|Toe Hold'
+decision_pattern = r'\w*dec\w*'
 
 
 def categorize_finish(method):
@@ -145,6 +145,8 @@ def categorize_finish(method):
     # Check for submissions
     elif re.search(submission_pattern, method, re.IGNORECASE):
         return 'SUB'
+    elif re.search(decision_pattern, method, re.IGNORECASE):
+        return 'DEC'
     else:
         return 'Other'
 
@@ -159,13 +161,14 @@ finishes_count['KO Rate'] = finishes_count['KO Count'] / \
     finishes_count['UFC Wins']
 finishes_count['SUB Rate'] = finishes_count['SUB Count'] / \
     finishes_count['UFC Wins']
+finishes_count['DEC Rate'] = finishes_count['DEC Count'] / \
+    finishes_count['UFC Wins']
 finishes_count.drop(columns=['UFC Wins', 'KO Count',
                     'SUB Count', 'Other Count'], inplace=True)
 
 fighters_df = fighters_df.join(finishes_count, on='Fighter_Id')
-fighters_df[['KO Rate', 'SUB Rate']] = fighters_df[[
-    'KO Rate', 'SUB Rate']].fillna(0).astype('float64')
-
+fighters_df[['KO Rate', 'SUB Rate', 'DEC Rate']] = fighters_df[[
+    'KO Rate', 'SUB Rate', 'DEC Rate']].fillna(0).round(2)
 
 def train_kmeans(X):
     kms = []
